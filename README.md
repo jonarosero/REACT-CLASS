@@ -1,42 +1,224 @@
-# React Class
+# React Class: Ejercicios para practicar React
 
-Este repositorio, **React Class**, contiene ejemplos básicos para entender el uso de React en el desarrollo de aplicaciones. Cada rama (`branch`) explora un aspecto diferente de React, desde el uso básico de props y componentes hasta el manejo de listas, hooks, y llamadas a una API. A continuación, se detalla lo que puedes encontrar en cada una de las ramas principales.
+En este repositorio, los estudiantes encontrarán ejercicios prácticos para aprender y mejorar sus habilidades en React. A lo largo de los ejercicios, trabajaremos con componentes, `props`, `state`, y más, para construir aplicaciones interactivas y dinámicas.
 
-## Ramas disponibles
+---
 
-### 1. `hello-world`
-Esta rama contiene los fundamentos de React, incluyendo:
-- Ejemplo básico de cómo pasar y renderizar `props` en componentes.
-- Creación de componentes funcionales para mostrar información estática.
-  
-Esta rama es ideal para quienes están comenzando con React y quieren entender cómo funcionan los props y la estructura básica de un componente.
+## Ejercicio 1: Refactorización de la Aplicación
 
-### 2. `products-list`
-En la rama `products-list`, exploramos cómo manejar listas y renderizar múltiples componentes usando la función `map`. Incluye:
-- Ejemplo de mapeo de listas de productos.
-- Paso de props a componentes especializados para que cada uno renderice la información de un producto en particular.
+Vamos a comenzar trabajando con la estructura básica de una aplicación React. Modifica el archivo `App.jsx` para que el código se vea de la siguiente forma:
 
-Esta rama es útil para comprender cómo manejar y renderizar listas dinámicas en React.
+```jsx
+import React from 'react';
 
-### 3. `hooks`
-La rama `hooks` introduce los hooks de React, específicamente `useState` y `useEffect`, aplicados a un contador simple. En esta rama verás:
-- Uso de `useState` para manejar el estado de un contador.
-- Ejemplo de `useEffect` para realizar acciones en respuesta a cambios en el estado del contador.
-- Manejo de estado para mostrar alertas cuando el contador alcanza ciertos valores.
+const App = () => {
+  const course = 'Half Stack application development';
+  const part1 = 'Fundamentals of React';
+  const exercises1 = 10;
+  const part2 = 'Using props to pass data';
+  const exercises2 = 7;
+  const part3 = 'State of a component';
+  const exercises3 = 14;
 
-Esta rama es excelente para aprender los conceptos básicos de hooks y cómo gestionar el estado y efectos secundarios en React.
+  return (
+    <div>
+      <h1>{course}</h1>
+      <p>{part1} {exercises1}</p>
+      <p>{part2} {exercises2}</p>
+      <p>{part3} {exercises3}</p>
+      <p>Total exercises: {exercises1 + exercises2 + exercises3}</p>
+    </div>
+  );
+};
 
-### 4. `api`
-La rama `api` expone un ejemplo práctico de cómo integrar una API externa usando `async` y `await` para realizar un CRUD de productos. Incluye:
-- Uso de `fetch` con `async/await` para realizar llamadas a una API.
-- Implementación de `useState`, `useEffect`, `props` y `map` para manejar la lista de productos y operaciones CRUD.
-- Ejemplo de cómo renderizar y actualizar datos en la interfaz de usuario en respuesta a cambios en la API.
+export default App;
+```
 
-Esta rama es ideal para aprender cómo hacer llamadas a API en React y cómo manipular datos externos en la aplicación.
+### Ejercicio 1.2: Crear Componentes Modulares
 
-## Cómo explorar este repositorio
+La aplicación que tenemos actualmente está contenida en un solo componente. Refactoriza el código para dividir la funcionalidad en tres componentes: `Header`, `Content` y `Total`.
 
-Para ver el código en una rama específica, usa el siguiente comando para cambiarte a la rama que deseas explorar:
+La estructura del componente `App` debería verse así:
 
-```bash
-git checkout <nombre-de-la-rama>
+```jsx
+import React from 'react';
+import Header from './Header';
+import Content from './Content';
+import Total from './Total';
+
+const App = () => {
+  const course = 'Half Stack application development';
+  const part1 = 'Fundamentals of React';
+  const exercises1 = 10;
+  const part2 = 'Using props to pass data';
+  const exercises2 = 7;
+  const part3 = 'State of a component';
+  const exercises3 = 14;
+
+  return (
+    <div>
+      <Header course={course} />
+      <Content parts={[{name: part1, exercises: exercises1}, {name: part2, exercises: exercises2}, {name: part3, exercises: exercises3}]} />
+      <Total total={exercises1 + exercises2 + exercises3} />
+    </div>
+  );
+};
+
+export default App;
+```
+## Ejercicio 2: Trabajando con Objetos y Arrays
+
+Vamos a modificar las variables para que sean objetos y arrays. Esto hará que la aplicación sea más flexible y fácil de mantener.
+
+Refactoriza el componente `App` de esta manera:
+
+```jsx
+const App = () => {
+  const course = {
+    name: 'Half Stack application development',
+    parts: [
+      { name: 'Fundamentals of React', exercises: 10 },
+      { name: 'Using props to pass data', exercises: 7 },
+      { name: 'State of a component', exercises: 14 }
+    ]
+  };
+
+  return (
+    <div>
+      <Header course={course.name} />
+      <Content parts={course.parts} />
+      <Total total={course.parts.reduce((sum, part) => sum + part.exercises, 0)} />
+    </div>
+  );
+};
+```
+## Ejercicio 3: Anécdotas
+### Ejercicio 3.1: Introducción de Funciones de Generación Aleatoria
+
+Ahora, vamos a expandir la aplicación con un botón para mostrar una anécdota aleatoria de la ingeniería de software:
+
+```jsx
+import React, { useState } from 'react';
+
+const App = () => {
+  const anecdotes = [
+    'If it hurts, do it more often.',
+    'Adding manpower to a late software project makes it later!',
+    'The first 90 percent of the code accounts for the first 10 percent of the development time...',
+    'Any fool can write code that a computer can understand...',
+    'Premature optimization is the root of all evil.',
+    'Debugging is twice as hard as writing the code in the first place...',
+    'Programming without an extremely heavy use of console.log is same as a doctor refusing to use x-rays...',
+    'The only way to go fast, is to go well.'
+  ];
+
+  const [selected, setSelected] = useState(0);
+
+  const handleClick = () => {
+    const randomIndex = Math.floor(Math.random() * anecdotes.length);
+    setSelected(randomIndex);
+  };
+
+  return (
+    <div>
+      <p>{anecdotes[selected]}</p>
+      <button onClick={handleClick}>Next Anecdote</button>
+    </div>
+  );
+};
+
+export default App;
+```
+### Ejercicio 3.2: Votación de Anécdotas
+En este ejercicio, expandimos la aplicación para que los usuarios puedan votar por las anécdotas mostradas. Usaremos un array para almacenar los votos:
+```jsx
+import React, { useState } from 'react';
+
+const App = () => {
+  const anecdotes = [
+    'If it hurts, do it more often.',
+    'Adding manpower to a late software project makes it later!',
+    'The first 90 percent of the code accounts for the first 10 percent of the development time...',
+    'Any fool can write code that a computer can understand...',
+    'Premature optimization is the root of all evil.',
+    'Debugging is twice as hard as writing the code in the first place...',
+    'Programming without an extremely heavy use of console.log is same as a doctor refusing to use x-rays...',
+    'The only way to go fast, is to go well.'
+  ];
+
+  const [selected, setSelected] = useState(0);
+  const [votes, setVotes] = useState(Array(anecdotes.length).fill(0));
+
+  const handleVote = () => {
+    const newVotes = [...votes];
+    newVotes[selected] += 1;
+    setVotes(newVotes);
+  };
+
+  const handleClick = () => {
+    const randomIndex = Math.floor(Math.random() * anecdotes.length);
+    setSelected(randomIndex);
+  };
+
+  return (
+    <div>
+      <p>{anecdotes[selected]}</p>
+      <p>has {votes[selected]} votes</p>
+      <button onClick={handleVote}>Vote</button>
+      <button onClick={handleClick}>Next Anecdote</button>
+    </div>
+  );
+};
+
+export default App;
+
+```
+### Ejercicio 3.3: Mostrar la Anécdota Más Votada
+Finalmente, implementa una versión de la aplicación que muestre la anécdota con el mayor número de votos:
+```jsx
+import React, { useState } from 'react';
+
+const App = () => {
+  const anecdotes = [
+    'If it hurts, do it more often.',
+    'Adding manpower to a late software project makes it later!',
+    'The first 90 percent of the code accounts for the first 10 percent of the development time...',
+    'Any fool can write code that a computer can understand...',
+    'Premature optimization is the root of all evil.',
+    'Debugging is twice as hard as writing the code in the first place...',
+    'Programming without an extremely heavy use of console.log is same as a doctor refusing to use x-rays...',
+    'The only way to go fast, is to go well.'
+  ];
+
+  const [selected, setSelected] = useState(0);
+  const [votes, setVotes] = useState(Array(anecdotes.length).fill(0));
+
+  const handleVote = () => {
+    const newVotes = [...votes];
+    newVotes[selected] += 1;
+    setVotes(newVotes);
+  };
+
+  const handleClick = () => {
+    const randomIndex = Math.floor(Math.random() * anecdotes.length);
+    setSelected(randomIndex);
+  };
+
+  const maxVotes = Math.max(...votes);
+  const mostVotedIndex = votes.indexOf(maxVotes);
+
+  return (
+    <div>
+      <p>{anecdotes[selected]}</p>
+      <p>has {votes[selected]} votes</p>
+      <button onClick={handleVote}>Vote</button>
+      <button onClick={handleClick}>Next Anecdote</button>
+
+      <h2>Anecdote with most votes</h2>
+      <p>{anecdotes[mostVotedIndex]} has {maxVotes} votes</p>
+    </div>
+  );
+};
+
+export default App;
+```
