@@ -6,7 +6,6 @@ import ProductList from './components/ProductList';
 const App = () => {
     const [products, setProducts] = useState([]);
 
-    // Obtener todos los productos al cargar el componente
     useEffect(() => {
         fetchProducts();
     }, []);
@@ -17,7 +16,6 @@ const App = () => {
         setProducts(data);
     };
 
-    // Agregar un nuevo producto
     const addProduct = async (product) => {
         const response = await fetch('https://api.escuelajs.co/api/v1/products/', {
             method: 'POST',
@@ -29,7 +27,6 @@ const App = () => {
         }
     };
 
-    // Actualizar un producto existente
     const updateProduct = async (id, updatedProduct) => {
         const response = await fetch(`https://api.escuelajs.co/api/v1/products/${id}`, {
             method: 'PUT',
@@ -41,7 +38,6 @@ const App = () => {
         }
     };
 
-    // Eliminar un producto por ID
     const deleteProduct = async (id) => {
         await fetch(`https://api.escuelajs.co/api/v1/products/${id}`, {
             method: 'DELETE'
