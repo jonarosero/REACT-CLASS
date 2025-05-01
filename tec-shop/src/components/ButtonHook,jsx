@@ -1,0 +1,27 @@
+import {useState, useEffect} from 'react';
+const ButtonHook = () =>{
+
+    const [contador, setContador] = useState(0);
+
+    const restar = () => {setContador(contador-1)}
+    const sumar = () => {setContador(contador+1)}
+  
+    useEffect(()=>{
+      if (contador === 20){
+        alert("El contador ha superado el número 20")
+      }
+      if (contador < 0){
+        alert("Solo puedes ingresar números negativos")
+        setContador(0)
+      }
+  
+    }, [contador])
+
+    return(<div>
+        <h3>Contador: {contador}</h3>
+        <button onClick={sumar}>Sumar</button>
+        <button onClick={restar}>Restar</button>
+    </div>)
+}
+
+export default ButtonHook
